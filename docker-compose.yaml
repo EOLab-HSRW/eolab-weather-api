@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  weather-api:
+    image: SirSundays/weather-api
+    build:
+      context: .
+    ports:
+      - "8079:8079"
+    environment:
+      - PGHOST=
+      - PGPORT=
+      - PGUSER=
+      - PGPASSWORD=
+      - PGDATABASE=
