@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.9'
 
 services:
   weather-api:
@@ -13,3 +13,5 @@ services:
       - PGUSER=
       - PGPASSWORD=
       - PGDATABASE=
+    mem_limit: "1G"
+    cpus: "1"
