@@ -2,14 +2,24 @@
 const express = require("express");
 var cors = require('cors');
 const app = express();
+// Import express-rate-limit
+const rateLimit = require('express-rate-limit');
 // Load DB Config
 require("dotenv").config();
 // Init DB
 const { Pool } = require("pg");
 const pool = new Pool();
 
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 app.use(cors());
 app.use(express.json());
+app.use(limiter);
 
 const returnDate = function (input) {
   if (isNaN(input)) {
@@ -30,7 +40,7 @@ const checkDate = function (date) {
 app.get("/api", (req, res) => {
   pool.query("SELECT 1 + 1 AS solution", (err, result) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send("API not available.");
       console.log(err);
       return;
     }
