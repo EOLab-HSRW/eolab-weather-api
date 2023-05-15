@@ -14,4 +14,4 @@ services:
       - PGPASSWORD=
       - PGDATABASE=
     mem_limit: "1G"
-    cpus: "1"
+    cpus: 1
